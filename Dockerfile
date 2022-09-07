@@ -7,7 +7,6 @@ ADD package-lock.json /app/package-lock.json
 RUN apk update
 RUN npm i --quiet
 
-RUN rm /app/node_modules/kool/lib/index.d.ts
 
 ADD . /app
 EXPOSE PORT
