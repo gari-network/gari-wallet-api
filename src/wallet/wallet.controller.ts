@@ -131,7 +131,7 @@ export class WalletController {
       };
     }
   }
-  @Get('getBalance/:publickey')
+  @Get('get-balance/:publickey')
   @ApiParam({
     name: 'publickey',
     type: String,
@@ -173,7 +173,7 @@ export class WalletController {
     }
   }
 
-  @Post('getTransactions/:publickey')
+  @Post('get-transactions/:publickey')
   @ApiParam({
     name: 'publickey',
     type: String,

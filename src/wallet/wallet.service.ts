@@ -136,12 +136,12 @@ export class WalletService {
     if (!isAssociatedAccount) {
       instructions.push(
         splToken.Token.createAssociatedTokenAccountInstruction(
-          new web3.PublicKey(senderPubkeyAta),
+          this.ASSOCIATED_TOKEN_PROGRAM_ID,
           this.programId,
           this.myMint,
           new web3.PublicKey(receiverPubkeyAta),
           new web3.PublicKey(receiverPublicKey),
-          new web3.PublicKey(fromPublicKey),
+          this.chingariWallet.publicKey,
         ),
       );
     }
