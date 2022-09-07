@@ -11,7 +11,7 @@ export class WalletService {
   private chingariAccountsPublickey;
 
   private programId;
-  private GARI_WALLET_SECRET_KEY;
+  private AIRDROP_FEEPAYER_PRIVATE_KEY;
 
   private chingariWallet;
 
@@ -23,11 +23,11 @@ export class WalletService {
 
   constructor() {
     this.programId = new web3.PublicKey(process.env.PROGRAM_ID);
-    this.GARI_WALLET_SECRET_KEY = new Uint8Array(
-      process.env.GARI_PRIVATE_KEY.split(',').map((e: any) => e * 1),
+    this.AIRDROP_FEEPAYER_PRIVATE_KEY = new Uint8Array(
+      process.env.AIRDROP_FEEPAYER_PRIVATE_KEY.split(',').map((e: any) => e * 1),
     );
     this.chingariWallet = web3.Keypair.fromSecretKey(
-      this.GARI_WALLET_SECRET_KEY,
+      this.AIRDROP_FEEPAYER_PRIVATE_KEY,
     );
     this.myMint = new web3.PublicKey(process.env.GARI_TOKEN_ADDRESS);
     this.myToken = new splToken.Token(
@@ -38,7 +38,7 @@ export class WalletService {
     );
 
     this.chingariAccountsPublickey = new web3.PublicKey(
-      process.env.GARI_ASSOCIATED_ACCOUNT,
+      process.env.AIRDROP_FEEPAYER_ASSOCIATED_ACCOUNT,
     );
     this.ASSOCIATED_TOKEN_PROGRAM_ID = new web3.PublicKey(
       process.env.GARI_ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -68,7 +68,7 @@ export class WalletService {
     pubkey,
     isAssociatedAccount,
   ) {
-    let coins = 1000000000;
+    let coins = Number(process.env.AIRDROP_AMOUNT);
     const publicKey = new web3.PublicKey(pubkey);
     const instructions = [];
     if (!isAssociatedAccount) {
@@ -97,7 +97,7 @@ export class WalletService {
     );
 
     const transaction = new web3.Transaction({
-      feePayer: new web3.PublicKey(process.env.GARI_PUBLIC_KEY),
+      feePayer: new web3.PublicKey(process.env.AIRDROP_FEEPAYER_PUBLIC_KEY),
     }).add(...instructions);
     let blockhashObj = await this.connection.getLatestBlockhash('finalized');
     transaction.recentBlockhash = blockhashObj.blockhash;
@@ -157,11 +157,11 @@ export class WalletService {
     );
 
     const transaction = new web3.Transaction({
-      feePayer: new web3.PublicKey(process.env.GARI_PUBLIC_KEY),
+      feePayer: new web3.PublicKey(process.env.AIRDROP_FEEPAYER_PUBLIC_KEY),
     }).add(...instructions);
     
 
-    let blockhashObj = await this.connection.getRecentBlockhash('finalized');
+    let blockhashObj = await this.connection.getLatestBlockhash('finalized');
     transaction.recentBlockhash = blockhashObj.blockhash;
 
     transaction.partialSign(fromWallet);
