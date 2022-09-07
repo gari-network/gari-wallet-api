@@ -190,8 +190,7 @@ export class WalletController {
     const signatures = await this.walletService.getSignature(receiverPubkeyAta);
     const transactions = []
     for(let sign of signatures){
-      console.log(sign)
-     const transData = await this.walletService.getTransactionsBySignature(sign)
+     const transData = await this.walletService.getTransactionsBySignature(sign.signature)
      transactions.push(transData)
     }
 
